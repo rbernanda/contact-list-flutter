@@ -90,70 +90,97 @@ class _ContactPageState extends State<ContactPage> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.25,
                           height: 100.0,
-                          child: FittedBox(
-                            child: Image.network(snapshot.data[index].avatar,
-                                fit: BoxFit.cover),
-                            fit: BoxFit.fill,
+                          decoration: BoxDecoration(
+                            color: Colors.purple[100],
+                            image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              colorFilter: index == _selectedIndex ? null : ColorFilter.mode(
+                                  Colors.purple.withOpacity(0.6),
+                                  BlendMode.multiply),
+                              image: new NetworkImage(
+                                snapshot.data[index].avatar,
+                              ),
+                            ),
                           ),
                         ),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.75,
-                            height: 100.0,
-                            padding: EdgeInsets.only(left: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              textDirection: TextDirection.ltr,
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.only(left: 20),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      textDirection: TextDirection.ltr,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot.data[index].fullName,
-                                          style: TextStyle(
-                                              color:
-                                                  _getSelectedTextColor(index),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18.0),
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          snapshot.data[index].email,
-                                          style: TextStyle(
-                                              color:
-                                                  _getSelectedTextColor(index),
-                                              fontSize: 14.0),
-                                        )
-                                      ],
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              _selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              height: 100.0,
+                              padding: EdgeInsets.only(left: 5),
+                              decoration: BoxDecoration(
+                                  color: index == _selectedIndex
+                                      ? Colors.purple[100]
+                                      : index.toInt() % 2 != 0
+                                          ? Colors.grey[100]
+                                          : Colors.white),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                textDirection: TextDirection.ltr,
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        textDirection: TextDirection.ltr,
+                                        children: <Widget>[
+                                          Text(
+                                            snapshot.data[index].fullName,
+                                            style: TextStyle(
+                                                color: _getSelectedTextColor(
+                                                    index),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.0),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            snapshot.data[index].email,
+                                            style: TextStyle(
+                                                color: _getSelectedTextColor(
+                                                    index),
+                                                fontSize: 14.0),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Center(
-                                    child: Row(
+                                  Container(
+                                    padding: EdgeInsets.only(right: 20),
+                                    child: Center(
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         textDirection: TextDirection.ltr,
                                         children: <Widget>[
-                                          Icon(Icons.phone, color: Colors.black,),
+                                          Icon(
+                                            Icons.phone,
+                                            color: Colors.black,
+                                          ),
                                           SizedBox(width: 15),
-                                          Icon(Icons.chat_bubble_outline_outlined, color: Colors.black,)
+                                          Icon(
+                                            Icons.chat_bubble_outline_outlined,
+                                            color: Colors.black,
+                                          )
                                         ],
-                                        ),
-                                  ),
-                                )
-                              ],
-                            ))
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        )
                       ],
                     ),
                   );
@@ -206,14 +233,14 @@ class User {
 //                         EdgeInsets.all(0),
 //                     // contentPadding:
 //                     //     EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-//                     tileColor: index.toInt() % 2 != 0
-//                         ? Colors.grey[100]
-//                         : Colors.white,
-                    // onTap: () {
-                    //   setState(() {
-                    //     _selectedIndex = index;
-                    //   });
-                    // },
+// tileColor: index.toInt() % 2 != 0
+//     ? Colors.grey[100]
+//     : Colors.white,
+// onTap: () {
+//   setState(() {
+//     _selectedIndex = index;
+//   });
+// },
 //                     selected: index == _selectedIndex,
 //                     selectedTileColor: Colors.purple[100],
 //                   );
