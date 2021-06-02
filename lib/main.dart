@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Contact List',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primaryColor: Colors.teal[400],
       ),
-      home: ContactPage(title: 'Contacts'),
+      home: ContactPage(title: 'CONTACTS'),
     );
   }
 }
@@ -58,12 +58,40 @@ class _ContactPageState extends State<ContactPage> {
     return _selectedIndex == index ? Colors.white : Colors.black;
   }
 
+  List<Widget> _getIcon(int index) {
+    var wids = <Widget>[];
+    if (_selectedIndex != index) {
+      wids.add(Icon(
+        Icons.circle,
+        color: index == 4 ? Colors.red : Colors.green,
+        size: 18,
+      ));
+      return wids;
+    }
+
+    wids.add(Icon(
+          Icons.phone,
+          color: Colors.white,
+        ));
+
+    wids.add(SizedBox(width: 15));
+
+    wids.add(Icon(
+          Icons.chat_bubble_outline_outlined,
+          color: Colors.white,
+        ));
+
+    return wids;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        leading: Icon(Icons.menu),
+        title: Text(widget.title, style: TextStyle(letterSpacing: 2.0),),
         centerTitle: true,
+        toolbarHeight: MediaQuery.of(context).size.width * 0.2,
       ),
       body: Container(
         child: FutureBuilder(
@@ -72,7 +100,7 @@ class _ContactPageState extends State<ContactPage> {
             if (snapshot.data == null) {
               return Container(
                 child: Center(
-                  child: Text('Loading'),
+                  child: Text('Loading...'),
                 ),
               );
             } else {
@@ -91,12 +119,13 @@ class _ContactPageState extends State<ContactPage> {
                           width: MediaQuery.of(context).size.width * 0.25,
                           height: 100.0,
                           decoration: BoxDecoration(
-                            color: Colors.purple[100],
                             image: new DecorationImage(
                               fit: BoxFit.cover,
-                              colorFilter: index == _selectedIndex ? null : ColorFilter.mode(
-                                  Colors.purple.withOpacity(0.6),
-                                  BlendMode.multiply),
+                              colorFilter: index == _selectedIndex
+                                  ? null
+                                  : ColorFilter.mode(
+                                      Colors.purple.withOpacity(0.6),
+                                      BlendMode.multiply),
                               image: new NetworkImage(
                                 snapshot.data[index].avatar,
                               ),
@@ -164,17 +193,7 @@ class _ContactPageState extends State<ContactPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         textDirection: TextDirection.ltr,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.phone,
-                                            color: Colors.black,
-                                          ),
-                                          SizedBox(width: 15),
-                                          Icon(
-                                            Icons.chat_bubble_outline_outlined,
-                                            color: Colors.black,
-                                          )
-                                        ],
+                                        children: _getIcon(index),
                                       ),
                                     ),
                                   )
@@ -207,40 +226,3 @@ class User {
 
   User(this.id, this.email, this.fullName, this.avatar);
 }
-
-// return ListTile(
-//                     leading: ConstrainedBox(
-//                         constraints: BoxConstraints(
-//                           minWidth: 44,
-//                           minHeight: 100,
-//                           maxWidth: 64,
-//                           maxHeight: 100,
-//                         ),
-
-//                         child: Image.network(snapshot.data[index].avatar, fit: BoxFit.cover)),
-//                     title: Text(
-//                       snapshot.data[index].fullName,
-//                       style: TextStyle(
-//                           color: _getSelectedTextColor(index),
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 18.0),
-//                     ),
-//                     subtitle: Text(snapshot.data[index].email,
-//                         style: TextStyle(
-//                             color: _getSelectedTextColor(index),
-//                             fontSize: 14.0)),
-//                             contentPadding:
-//                         EdgeInsets.all(0),
-//                     // contentPadding:
-//                     //     EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-// tileColor: index.toInt() % 2 != 0
-//     ? Colors.grey[100]
-//     : Colors.white,
-// onTap: () {
-//   setState(() {
-//     _selectedIndex = index;
-//   });
-// },
-//                     selected: index == _selectedIndex,
-//                     selectedTileColor: Colors.purple[100],
-//                   );
